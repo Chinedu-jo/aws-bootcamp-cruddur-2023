@@ -68,4 +68,42 @@ Here is a proof of my working AWS CLI installation:
 
 ![AWS CLI installation](images/awsidentity.png)
 
+####Gitpod AWS CLI
 
+I also installed AWS CLI on Gitpod using same method as my local terminal
+
+See output for proof
+```
+gitpod /workspace $ sudo ./aws/install
+You can now run: /usr/local/bin/aws --version
+
+```
+
+After installation, I tried to retrieve AWS CLI info using `aws sts get-caller-identity` but encountered error below:
+
+```
+gitpod /workspace $ aws sts get-caller-identity
+
+Unable to locate credentials. You can configure credentials by running "aws configure".
+```
+
+I resolved this by setting env variables for the Gitpod environment using the code below retrieved from [AWS CLI Env Variable](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html) page
+
+
+**Note that the values for the variables are ommited for security reasons
+```
+export AWS_ACCESS_KEY_ID=""
+export AWS_SECRET_ACCESS_KEY=""
+export AWS_DEFAULT_REGION="us-east-1"
+```
+
+![Setting env variables](images/env%20variables.png)
+
+These variables were not persistent as they were in use for just one session.
+In order to make them persistent, I configured Gitpod to retain the details with the command below:
+
+```
+gp env AWS_ACCESS_KEY_ID=""
+gp env AWS_SECRET_ACCESS_KEY=""
+gp env AWS_DEFAULT_REGION="us-east-1"
+```
