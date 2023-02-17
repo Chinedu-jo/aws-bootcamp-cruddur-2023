@@ -5,11 +5,6 @@
 This section represents the requested architectural diagrams for Cruddur
 
 I made both conceptual and Logical diagrams using Lucid charts.
-I was however unable to make Adrian Cantril's Cat CI/CD Pipeline due to Lucid account restrictions. 
-
-Lucid indicated I had run out of free icons. The lucid restriction is as seen here
-
- ![lucid error](images/Lucid%20error.png)
 
 This is my submission for [Conceptual diagram](https://lucid.app/lucidchart/c50b264f-e17b-495d-9a39-5c23ddbec7a0/edit?viewport_loc=-2394%2C-322%2C2606%2C1216%2C0_0&invitationId=inv_09077203-7296-45c4-a02d-c4c66242c2c7) using Lucid chart 
 
@@ -18,6 +13,10 @@ This is my submission for [Conceptual diagram](https://lucid.app/lucidchart/c50b
 This is my subsmission for [Logical diagram](https://lucid.app/lucidchart/c50b264f-e17b-495d-9a39-5c23ddbec7a0/edit?viewport_loc=-594%2C-151%2C2222%2C1037%2CLvNx.WRbXoQp&invitationId=inv_09077203-7296-45c4-a02d-c4c66242c2c7) using Lucid chart  
 
 ![here](images/Logical%20Diagram.png)
+
+Here is my remake and proof of Adrian Cantril's [catPipeline diagram](https://lucid.app/lucidchart/f7bcd2b9-4ed3-4427-ad7b-3abdf8624cf3/edit?viewport_loc=-291%2C-1066%2C1737%2C811%2C0_0&invitationId=inv_7b6ed873-291f-471d-aedd-c38b16584e0d)
+
+![Adrian Cantril's catPipeline diagram](images/catpipeline.png)
 
 ## Billing
 For the Billing related tasks, I watched all available videos and followed [Chirag's video](https://www.youtube.com/watch?v=OVw3RrlP-sI&list=PLBfufR7vyJJ7k25byhRXJldB5AiwgNnWv&index=13) to complete this task.
@@ -55,6 +54,8 @@ sudo ./aws/install
 
 I installed on both Gitpod and local terminal.
 
+#### Local Terminal AWS CLI Installation
+
 While installing on my terminal I encountered and issue unzipping the folder because **unzip** was not installed.
 
 ![](images/unzip%20error.png)
@@ -68,7 +69,7 @@ Here is a proof of my working AWS CLI installation:
 
 ![AWS CLI installation](images/awsidentity.png)
 
-####Gitpod AWS CLI
+#### Gitpod AWS CLI Installation
 
 I also installed AWS CLI on Gitpod using same method as my local terminal
 
