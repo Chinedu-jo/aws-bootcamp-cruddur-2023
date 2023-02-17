@@ -1,6 +1,5 @@
 # Week 0 — Billing and Architecture
 
-# Week-0: Billing and Architecture
 ## Architecture
 This section represents the requested architectural diagrams for Cruddur
 
