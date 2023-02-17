@@ -107,3 +107,7 @@ gp env AWS_ACCESS_KEY_ID=""
 gp env AWS_SECRET_ACCESS_KEY=""
 gp env AWS_DEFAULT_REGION="us-east-1"
 ```
+Proof of Gitpod AWS CLI configuration works:
+
+![Gitpod AWS CLI](images/gitpod%20prof.png)
+
