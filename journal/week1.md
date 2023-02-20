@@ -27,3 +27,13 @@ Then restarted the application
 python3 -m flask run --host=0.0.0.0 --port=4567
 ```
 ![](images/)
+
+## Containerize Docker Application
+I built a [Dockerfile](/backend-flask/Dockerfile) for the backend and frontend applications
+
+To ensure the preset env variable were not being used by the application, I unset them
+
+```
+unset FRONTEND_URL
+unset BACKEND_URL
+```
