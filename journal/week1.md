@@ -37,3 +37,51 @@ To ensure the preset env variable were not being used by the application, I unse
 unset FRONTEND_URL
 unset BACKEND_URL
 ```
+Built docker file for both frontend and backend applications:
+
+Backend Dockerfile:
+
+```docker
+FROM python:3.10-slim-buster
+
+WORKDIR /backend-flask
+
+COPY requirements.txt requirements.txt
+
+RUN pip3 install -r requirements.txt
+
+COPY . .
+
+ENV FLASK_ENV=development
+
+EXPOSE ${PORT}
+
+CMD [ "python3", "-m", "flask", "run", "--host=0.0.0.0", "--port=4567" ]
+
+```
+
+### Backend Docker build and run sequence
+
+To build the docker images, input the following:
+
+```docker
+docker build -t backend-flask ./backend-flask
+
+```
+
+To run the build images as container, input the following:
+
+```docker
+docker run --rm -p 4567:4567 -e FRONTEND_URL="*" -e BACKEND_URL="*" backend-flask
+```
+## STRETCH HOMEWORK
+To ensure all dependencies are installed on launching Gitpod, I added the following to gitpod.yml file
+
+```json
+- name: Install Frontend and Backend dependencies
+    init: |
+      cd /workspace/aws-bootcamp-cruddur/backend-flask
+      pip3 install -r requirements.txt
+      cd /workspace/aws-bootcamp-cruddur/frontend-react-js
+      npm i
+```
