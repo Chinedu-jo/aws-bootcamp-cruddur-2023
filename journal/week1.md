@@ -94,6 +94,13 @@ docker run --rm \
 -e BACKEND_URL="*" \
 backend-flask
 ```
+### Frontend Docker build and run sequence
+First ensure you are in the right directory then install dependencies.
+
+```sh
+cd /frontend-react-js
+npm install
+```
 
 ## STRETCH HOMEWORK
 To ensure all dependencies are installed on launching Gitpod, I added the following to gitpod.yml file
