@@ -101,6 +101,26 @@ First ensure you are in the right directory then install dependencies.
 cd /frontend-react-js
 npm install
 ```
+Frontend Dockerfile content:
+
+*Note I used base image of node:16.19-alpine as 16.18 was not available on DockerHub*
+
+```dockerfile
+FROM node:16.19-alpine
+
+WORKDIR /frontend-react-js
+
+COPY . /frontend-react-js
+
+RUN npm install
+
+ENV PORT=3000
+
+EXPOSE ${PORT}
+
+CMD ["npm", "start"]
+```
+
 
 ## STRETCH HOMEWORK
 To ensure all dependencies are installed on launching Gitpod, I added the following to gitpod.yml file
