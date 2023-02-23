@@ -74,6 +74,17 @@ To run the build images as container, input the following:
 ```sh
 docker run --rm -p 4567:4567 -e FRONTEND_URL="*" -e BACKEND_URL="*" backend-flask
 ```
+
+OR break commands into multiple lines:
+
+```sh
+docker run --rm \
+-p 4567:4567 \
+-e FRONTEND_URL="*" \
+-e BACKEND_URL="*" \
+backend-flask
+```
+
 ## STRETCH HOMEWORK
 To ensure all dependencies are installed on launching Gitpod, I added the following to gitpod.yml file
 
