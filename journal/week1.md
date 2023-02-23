@@ -2,7 +2,7 @@
 
 To run the Backend application - Python(flask), I had to install all components in the requirements.txt file with the command:
 
-```
+```sh
 cd backend-flask/
 pip3 install -r requirements.txt
 python3 -m flask run --host=0.0.0.0 --port=4567
@@ -17,23 +17,23 @@ The requested URL was not found on the server. If you entered the URL manually p
 
 So I stopped the running application and set the required variables found in `app.py` file:
 
-```
-FRONTEND_URL="*"
-BACKEND_URL="*"
+```sh
+export FRONTEND_URL="*"
+export BACKEND_URL="*"
 ```
 Then restarted the application
 
-```
+```sh
 python3 -m flask run --host=0.0.0.0 --port=4567
 ```
 ![](images/)
 
 ## Containerize Docker Application
-I built a [Dockerfile](/backend-flask/Dockerfile) for the backend and frontend applications
+I built a [Backend Dockerfile](/backend-flask/Dockerfile) and [Frontend Dockerfile](/frontend-react-js/Dockerfile)
 
 To ensure the preset env variable were not being used by the application, I unset them
 
-```
+```sh
 unset FRONTEND_URL
 unset BACKEND_URL
 ```
@@ -41,7 +41,7 @@ Built docker file for both frontend and backend applications:
 
 Backend Dockerfile:
 
-```docker
+```dockerfile
 FROM python:3.10-slim-buster
 
 WORKDIR /backend-flask
@@ -64,20 +64,20 @@ CMD [ "python3", "-m", "flask", "run", "--host=0.0.0.0", "--port=4567" ]
 
 To build the docker images, input the following:
 
-```docker
+```sh
 docker build -t backend-flask ./backend-flask
 
 ```
 
 To run the build images as container, input the following:
 
-```docker
+```sh
 docker run --rm -p 4567:4567 -e FRONTEND_URL="*" -e BACKEND_URL="*" backend-flask
 ```
 ## STRETCH HOMEWORK
 To ensure all dependencies are installed on launching Gitpod, I added the following to gitpod.yml file
 
-```json
+```yaml
 - name: Install Frontend and Backend dependencies
     init: |
       cd /workspace/aws-bootcamp-cruddur/backend-flask
