@@ -66,7 +66,17 @@ To build the docker images, input the following:
 
 ```sh
 docker build -t backend-flask ./backend-flask
+```
+Confirm the images has been created with the command:
 
+```sh
+docker images
+```
+To see running containers and all available containers:
+
+```sh
+docker ps
+docker ps -a
 ```
 
 To run the build images as container, input the following:
