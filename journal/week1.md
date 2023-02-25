@@ -121,6 +121,41 @@ EXPOSE ${PORT}
 CMD ["npm", "start"]
 ```
 
+### Starting up applications with docker-compose
+
+
+```dockerfile
+version: "3.8"
+services:
+  backend-flask:
+    environment:
+      FRONTEND_URL: "https://3000-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}"
+      BACKEND_URL: "https://4567-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}"
+    build: ./backend-flask
+    ports:
+      - "4567:4567"
+    volumes:
+      - ./backend-flask:/backend-flask
+  frontend-react-js:
+    environment:
+      REACT_APP_BACKEND_URL: "https://4567-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}"
+    build: ./frontend-react-js
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend-react-js:/frontend-react-js
+networks: 
+  internal-network:
+    driver: bridge
+    name: cruddur
+```
+
+Started up the applications using the command below:
+
+```sh
+docker-compose up
+```
+
 
 ## STRETCH HOMEWORK
 To ensure all dependencies are installed on launching Gitpod, I added the following to gitpod.yml file
@@ -128,8 +163,8 @@ To ensure all dependencies are installed on launching Gitpod, I added the follow
 ```yaml
 - name: Install Frontend and Backend dependencies
     init: |
-      cd /workspace/aws-bootcamp-cruddur/backend-flask
+      cd /workspace/aws-bootcamp-cruddur-2023/backend-flask
       pip3 install -r requirements.txt
-      cd /workspace/aws-bootcamp-cruddur/frontend-react-js
+      cd /workspace/aws-bootcamp-cruddur-2023/frontend-react-js
       npm i
 ```
