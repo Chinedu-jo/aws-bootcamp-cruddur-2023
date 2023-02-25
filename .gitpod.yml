@@ -10,9 +10,9 @@ tasks:
       cd $THEIA_WORKSPACE_ROOT
   - name: Install Frontend and Backend dependencies
     init: |
-      cd /workspace/aws-bootcamp-cruddur/backend-flask
+      cd /workspace/aws-bootcamp-cruddur-2023/backend-flask
       pip3 install -r requirements.txt
-      cd /workspace/aws-bootcamp-cruddur/frontend-react-js
+      cd /workspace/aws-bootcamp-cruddur-2023/frontend-react-js
       npm i
 vscode:
   extensions:
