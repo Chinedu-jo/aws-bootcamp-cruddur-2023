@@ -155,6 +155,8 @@ Started up the applications using the command below:
 ```sh
 docker-compose up
 ```
+Result:
+![cruddur works](/journal/images/)
 
 
 ## STRETCH HOMEWORK
