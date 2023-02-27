@@ -26,7 +26,11 @@ Then restarted the application
 ```sh
 python3 -m flask run --host=0.0.0.0 --port=4567
 ```
-![](images/)
+
+Browser View:
+
+![Backend app](images/initial%20backend.png)
+
 
 ## Containerize Docker Application
 I built a [Backend Dockerfile](/backend-flask/Dockerfile) and [Frontend Dockerfile](/frontend-react-js/Dockerfile)
@@ -94,6 +98,9 @@ docker run --rm \
 -e BACKEND_URL="*" \
 backend-flask
 ```
+
+![Backend app running](images/backend%20docker%20file%20final.png)
+
 ### Frontend Docker build and run sequence
 First ensure you are in the right directory then install dependencies.
 
@@ -103,7 +110,7 @@ npm install
 ```
 Frontend Dockerfile content:
 
-*Note I used base image of node:16.19-alpine as 16.18 was not available on DockerHub*
+*Note I used base image of node:16.19-alpine to keep application lightweight*
 
 ```dockerfile
 FROM node:16.19-alpine
@@ -156,8 +163,13 @@ Started up the applications using the command below:
 docker-compose up
 ```
 Result:
-![cruddur works](/journal/images/cruddur-docker-compose.png)
+![cruddur works](images/cruddur-docker-compose.png)
 
+### Notification pane task
+
+I followed the instruction video and successfully got the application working
+
+![notification tab](images/final-notifications.png)
 
 ## STRETCH HOMEWORK
 To ensure all dependencies are installed on launching Gitpod, I added the following to gitpod.yml file
@@ -224,6 +236,10 @@ af1fa49a98d8: Mounted from library/node
 7cd52847ad77: Mounted from library/node 
 1.0: digest: sha256:968aa7c31498c16cf9e85e3c0b9d08db6ee8e43feae5bff2b6f1088a5e86b6aa size: 1788
 ```
+
+![DOckerHub Image](images/docker-hub-image.png)
+
+
 **logout of docker to remove stored credentials:**
 
 ```sh
@@ -405,7 +421,7 @@ $ sudo service docker start
 Redirecting to /bin/systemctl start docker.service
 ```
 
-To confirm docker was installed and version, I used the command:
+To confirm docker version, I used the command:
 
 ```sh
 $ sudo docker --version
@@ -478,16 +494,16 @@ Steps:
 2. Locate the security group configured for the EC2
 3. Navigate to Inbound rules
 4. Click Edit inbound rules:
-  ![inbound rule addition](images/)
+  ![inbound rule addition](images/security-group-rule.png)
   
 You should have something similar to the below image:
 
-![inbound rule set](images/)
+![inbound rule set](images/security-group.png)
 
 
 ### Frontend application on Remote machine
 
 I got the frontend application to work and no doubt the backend would work exact same way
 
-![app running on EC2 instance](images/)
+![app running on EC2 instance](images/ec2-working.png)
 
