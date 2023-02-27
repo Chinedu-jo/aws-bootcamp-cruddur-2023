@@ -6,6 +6,8 @@ COPY . /frontend-react-js
 
 RUN npm install
 
+RUN apk --update --no-cache add curl
+
 ENV PORT=3000
 
 EXPOSE ${PORT}
