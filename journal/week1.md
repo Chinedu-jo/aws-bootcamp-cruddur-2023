@@ -201,12 +201,12 @@ https://docs.docker.com/engine/reference/commandline/login/#credentials-store
 Login Succeeded
 ```
 
-** Tag the images as below:
+**Tag the images as below:**
 ```sh
 docker tag frontend-react-js:v1 nedudev/frontend-react-js:1.0
 ```
 
-**  Push image as below:
+**Push image as below:**
 ```sh
 docker push nedudev/frontend-react-js:1.0
 ```
@@ -224,7 +224,7 @@ af1fa49a98d8: Mounted from library/node
 7cd52847ad77: Mounted from library/node 
 1.0: digest: sha256:968aa7c31498c16cf9e85e3c0b9d08db6ee8e43feae5bff2b6f1088a5e86b6aa size: 1788
 ```
-** logout of docker to remove stored credentials
+**logout of docker to remove stored credentials:**
 
 ```sh
 docker logout
@@ -307,7 +307,7 @@ gitpod /workspace/aws-bootcamp-cruddur-2023/frontend-react-js (main) $ curl --fa
 
 I logged into the container and noticed ``curl`` was not installed so I added the installation command to the frontend Dockerfile as advised in the referenced [docker-compose healthcheck article](https://medium.com/geekculture/how-to-successfully-implement-a-healthcheck-in-docker-compose-efced60bc08e)
 
-**Accessing Container
+**Accessing Container:**
 ```sh
 docker exec -it 911ab242f17a /bin/sh
 ```
@@ -318,7 +318,7 @@ Prompt:
 /bin/sh: curl: not found
 ```
 
-** Command added to Frontend Dockerfile to install Curl:
+**Command added to Frontend Dockerfile to install Curl:**
 
 ```dockerfile
 RUN apk --update --no-cache add curl
@@ -350,8 +350,144 @@ Output:
  ```
 
 Output:
-*** Notice the status is now ** healthy **
+**Notice the status is now `healthy`**
 ```sh
 CONTAINER ID   IMAGE                                         COMMAND                  CREATED          STATUS                    PORTS                                       NAMES
 8fcb734ab56b   aws-bootcamp-cruddur-2023-frontend-react-js   "docker-entrypoint.s…"   53 seconds ago   Up 51 seconds (healthy)   0.0.0.0:3000->3000/tcp, :::3000->3000/tcp   aws-bootcamp-cruddur-2023-frontend-react-js-1
 ```
+
+### Launch AWS EC2 instance and install Docker
+
+#### Run AWS EC2 instance
+I resumed a previously stopped instance and accessed it via SSH
+
+```sh
+chmod 400 {inserts .pem private key file}
+ssh -i "{.pem private key}" {EC2 Public IPv4 DNS}
+```
+
+**Install updates before installing docker**:
+
+```sh
+sudo yum install update -y
+```
+
+#### Install Docker on Remote machine
+
+I noticed docker was not installed
+
+```
+[ec2-user@ip-172-31-87-205 ~]$ docker
+-bash: docker: command not found
+```
+
+Docker Daemon installation:
+
+```sh
+sudo yum install docker.x86_64 er
+```
+
+I also observed the docker service was not running:
+
+```sh
+$ sudo service docker status
+Redirecting to /bin/systemctl status docker.service
+● docker.service - Docker Application Container Engine
+   Loaded: loaded (/usr/lib/systemd/system/docker.service; disabled; vendor preset: disabled)
+   Active: inactive (dead)
+     Docs: https://docs.docker.com
+```
+
+I started the service with command:
+
+```sh
+$ sudo service docker start
+Redirecting to /bin/systemctl start docker.service
+```
+
+To confirm docker was installed and version, I used the command:
+
+```sh
+$ sudo docker --version
+```
+
+Output:
+
+```
+Docker version 20.10.17, build 100c701
+```
+
+### Pull images from Docker Hub
+
+I pulled our docker image from the Docker Hub:
+
+```sh
+sudo docker pull nedudev/frontend-react-js:1.0
+```
+
+Output:
+
+```sh
+$ sudo docker pull nedudev/frontend-react-js:1.0
+1.0: Pulling from nedudev/frontend-react-js
+63b65145d645: Pull complete
+a67f65df360b: Pull complete
+6112f742730b: Pull complete
+4d4a28bae26a: Pull complete
+64841e8e567c: Pull complete
+44c6a6d6924a: Pull complete
+184e1de99711: Pull complete
+Digest: sha256:968aa7c31498c16cf9e85e3c0b9d08db6ee8e43feae5bff2b6f1088a5e86b6aa
+Status: Downloaded newer image for nedudev/frontend-react-js:1.0
+docker.io/nedudev/frontend-react-js:1.0
+```
+
+To see pulled image:
+
+```sh
+$ sudo docker ps
+```
+
+Output:
+
+```sh
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+[ec2-user@ip-172-31-87-205 ~]$ sudo docker images
+REPOSITORY                  TAG       IMAGE ID       CREATED       SIZE
+nedudev/frontend-react-js   1.0       db9198487dae   3 hours ago   359MB
+```
+
+Run container from image:
+
+```sh
+sudo docker run --rm -p 3000:3000 -d nedudev/frontend-react-js:1.0
+```
+
+Output:
+
+```
+$ sudo docker run --rm -p3000:3000 -d nedudev/frontend-react-js:1.0
+
+5ff75f286af1b3a786ff26a1a2e7179647f74673234138f3e04868abce051e28
+```
+
+In order to access the application on port 3000, I had to add inbound ports to the security group.
+
+Steps:
+1. Go to Security Groups
+2. Locate the security group configured for the EC2
+3. Navigate to Inbound rules
+4. Click Edit inbound rules:
+  ![inbound rule addition](images/)
+  
+You should have something similar to the below image:
+
+![inbound rule set](images/)
+
+
+### Frontend application on Remote machine
+
+I got the frontend application to work and no doubt the backend would work exact same way
+
+![app running on EC2 instance](images/)
+
