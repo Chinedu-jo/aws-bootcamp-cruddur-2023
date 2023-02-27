@@ -170,3 +170,57 @@ To ensure all dependencies are installed on launching Gitpod, I added the follow
       cd /workspace/aws-bootcamp-cruddur-2023/frontend-react-js
       npm i
 ```
+
+### Push local Docker images to Docker Hub
+
+I built the frontend app only and pushed to Docker Hub to be reusable on remote systems:
+
+The frontend app image was built with the commands below:
+```sh
+cd frontend-react-js/
+docker build -t frontend-react-js:v1 .
+```
+
+To push to Docker hub, you first have to login Docker then tag the image correctly to reflect the docker user and repo
+
+Login:
+
+```sh
+docker login
+```
+Prompt to input login credentials and success message:
+
+```sh
+Login with your Docker ID to push and pull images from Docker Hub. If you don't have a Docker ID, head over to https://hub.docker.com to create one.
+Username: nedudev
+Password: 
+WARNING! Your password will be stored unencrypted in /home/gitpod/.docker/config.json.
+Configure a credential helper to remove this warning. See
+https://docs.docker.com/engine/reference/commandline/login/#credentials-store
+
+Login Succeeded
+```
+
+** Tag the images as below:
+```sh
+docker tag frontend-react-js:v1 nedudev/frontend-react-js:1.0
+```
+
+**  Push image as below:
+```sh
+docker push nedudev/frontend-react-js:1.0
+```
+
+Output:
+
+```sh
+The push refers to repository [docker.io/nedudev/frontend-react-js]
+3b8430c53a72: Pushed 
+80b568d369dd: Pushed 
+747aed1e6526: Pushed 
+67246b9bbb93: Mounted from library/node 
+a1ce792246f9: Mounted from library/node 
+af1fa49a98d8: Mounted from library/node 
+7cd52847ad77: Mounted from library/node 
+1.0: digest: sha256:968aa7c31498c16cf9e85e3c0b9d08db6ee8e43feae5bff2b6f1088a5e86b6aa size: 1788
+```
