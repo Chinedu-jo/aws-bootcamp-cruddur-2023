@@ -259,3 +259,68 @@ frontend-react-js:
       start_period: 30s
 ```
 
+I was met with ``unhealthy`` healthcheck result.
+
+```
+CONTAINER ID   IMAGE                                         COMMAND                  CREATED         STATUS                     PORTS                                       NAMES
+f2fdb9d39c95   aws-bootcamp-cruddur-2023-backend-flask       "python3 -m flask ru…"   3 minutes ago   Up 3 minutes               0.0.0.0:4567->4567/tcp, :::4567->4567/tcp   aws-bootcamp-cruddur-2023-backend-flask-1
+911ab242f17a   aws-bootcamp-cruddur-2023-frontend-react-js   "docker-entrypoint.s…"   3 minutes ago   Up 3 minutes (unhealthy)   0.0.0.0:3000->3000/tcp, :::3000->3000/tcp   aws-bootcamp-cruddur-2023-frontend-react-js-1
+```
+I drilled down to the root of the problem after I tested the test curl on my local terminal with a successful message.
+
+```
+gitpod /workspace/aws-bootcamp-cruddur-2023/frontend-react-js (main) $ curl --fail https://3000-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <meta name="description" content="Cruddur"/>
+    <title>Cruddur</title>
+  <script defer src="/static/js/bundle.js"></script></head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <main></main>
+    <!--
+      This HTML file is a template.
+      If you open it directly in the browser, you will see an empty page.
+
+      You can add webfonts, meta tags, or analytics to this file.
+      The build step will place the bundled scripts into the <body> tag.
+
+      To begin the development, run `npm start` or `yarn start`.
+      To create a production bundle, use `npm run build` or `yarn build`.
+    -->
+  </body>
+</html>
+```
+
+I logged into the container and noticed ``curl`` was not installed so I added the installation command to the frontend Dockerfile as advised in the referenced [docker-compose healthcheck article](https://medium.com/geekculture/how-to-successfully-implement-a-healthcheck-in-docker-compose-efced60bc08e)
+
+**Accessing Container
+```sh
+docker exec -it 911ab242f17a /bin/sh
+```
+Prompt:
+
+```
+/frontend-react-js # curl --fail https://3000-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}
+/bin/sh: curl: not found
+```
+
+** Command added to Frontend Dockerfile to install Curl:
+
+```dockerfile
+RUN apk --update --no-cache add curl
+```
+
