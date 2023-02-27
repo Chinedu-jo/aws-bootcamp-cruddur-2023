@@ -507,3 +507,5 @@ I got the frontend application to work and no doubt the backend would work exact
 
 ![app running on EC2 instance](images/ec2-working.png)
 
+To avoid excess spend, I stopped the EC2 instance after confirmation.
+
