@@ -323,4 +323,35 @@ Prompt:
 ```dockerfile
 RUN apk --update --no-cache add curl
 ```
+I had to delete the existing Frontend built image after making changed to the Dockerfile and run docker-compose up
 
+```sh
+docker-compose up
+```
+Output:
+```sh
+[+] Building 27.2s (10/10) FINISHED                                                                                                      
+ => [internal] load build definition from Dockerfile                                                                                0.0s
+ => => transferring dockerfile: 224B                                                                                                0.0s
+ => [internal] load .dockerignore                                                                                                   0.0s
+ => => transferring context: 2B                                                                                                     0.0s
+ => [internal] load metadata for docker.io/library/node:16.19-alpine                                                                0.0s
+ => [1/5] FROM docker.io/library/node:16.19-alpine                                                                                  0.0s
+ => [internal] load build context                                                                                                   3.9s
+ => => transferring context: 78.59MB                                                                                                3.8s
+ => CACHED [2/5] WORKDIR /frontend-react-js                                                                                         0.0s
+ => [3/5] COPY . /frontend-react-js                                                                                                 4.7s
+ => [4/5] RUN npm install                                                                                                          11.2s
+ => [5/5] RUN apk --update --no-cache add curl                                                                                      1.2s
+ => exporting to image                                                                                                              6.1s 
+ => => exporting layers                                                                                                             6.1s 
+ => => writing image sha256:67fbeec1bc74dd540a6b4273abb472186957e539f04f7ff41185ef4e3740d429                                        0.0s 
+ => => naming to docker.io/library/aws-bootcamp-cruddur-2023-frontend-react-js                                                      0.0s
+ ```
+
+Output:
+*** Notice the status is now ** healthy **
+```sh
+CONTAINER ID   IMAGE                                         COMMAND                  CREATED          STATUS                    PORTS                                       NAMES
+8fcb734ab56b   aws-bootcamp-cruddur-2023-frontend-react-js   "docker-entrypoint.s…"   53 seconds ago   Up 51 seconds (healthy)   0.0.0.0:3000->3000/tcp, :::3000->3000/tcp   aws-bootcamp-cruddur-2023-frontend-react-js-1
+```
