@@ -190,7 +190,7 @@ docker login
 ```
 Prompt to input login credentials and success message:
 
-```sh
+```
 Login with your Docker ID to push and pull images from Docker Hub. If you don't have a Docker ID, head over to https://hub.docker.com to create one.
 Username: nedudev
 Password: 
@@ -224,3 +224,38 @@ af1fa49a98d8: Mounted from library/node
 7cd52847ad77: Mounted from library/node 
 1.0: digest: sha256:968aa7c31498c16cf9e85e3c0b9d08db6ee8e43feae5bff2b6f1088a5e86b6aa size: 1788
 ```
+** logout of docker to remove stored credentials
+
+```sh
+docker logout
+```
+
+Output:
+
+```
+Removing docker login credentials for https://index.docker.io/v1/
+```
+
+### Implement Healthcheck on Docker Compose for Frontend application
+
+I learnt to do this via a [docker-compose healthcheck article](https://medium.com/geekculture/how-to-successfully-implement-a-healthcheck-in-docker-compose-efced60bc08e)
+Healthcheck was implemented  with the command below:
+
+```dockerfile
+frontend-react-js:
+    environment:
+      REACT_APP_BACKEND_URL: "https://4567-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}"
+    build: ./frontend-react-js
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend-react-js:/frontend-react-js
+    #Frontend application Healthcheck code
+    healthcheck:
+      test: curl --fail https://3000-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}/api/activities/home
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+```
+
