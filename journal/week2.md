@@ -101,3 +101,16 @@ RequestsInstrumentor().instrument()
 ```
 
 Avoid duplicate `app = Flask(__name__)` if you already have an exisiting one in your `app.py` 
+
+Here is the [commit](https://github.com/Chinedu-jo/aws-bootcamp-cruddur-2023/commit/8a3b21f9eae4e3cf0965d1f74b8a4b51e6057971) for implementing instrumentation 
+
+Here is an image of the `Home` page after restarting container using `docker-compose up`
+![Homecromb Home page](images/honeycomb-home.png)
+
+Here is an image of the reported `backend-flask` dataset
+![Backend-flask dataset](images/honeycromb-datasets.png)
+
+Here is an image of the span:
+![Backend-flask span](images/honeycromb-spans.png)
+
+### Acquiring a tracer
