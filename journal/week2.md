@@ -5,11 +5,11 @@
 The environment (dev, staging, pre-prod, prod etc) is first created to differentiate working environments for different stages of your build or test.
 
 I created an environment called `bootcamp`, API keys were generated automatically but can be created by clicking the `create API key` button
-![bootcamp environment](images/bootcamp1)
+![bootcamp environment](images/bootcamp1.png)
 
 To retrieve API Keys, click `View API Keys` on the environment management dashboard and you will get a view just like this:
 
-![API Keys](images/api_keys)
+![API Keys](images/api_keys.png)
 
 Copy the API Keys as you will be needing it in your code or terminal
 
@@ -108,10 +108,10 @@ Here is an image of the `Home` page after restarting container using `docker-com
 ![Homecromb Home page](images/honeycomb-home.png)
 
 Here is an image of the reported `backend-flask` dataset
-![Backend-flask dataset](images/honeycromb-datasets.png)
+![Backend-flask dataset](images/honeycomb-datasets.png)
 
 Here is an image of the span:
-![Backend-flask span](images/honeycromb-spans.png)
+![Backend-flask span](images/honeycomb-spans.png)
 
 ### Acquiring a tracer and adding a span
 
