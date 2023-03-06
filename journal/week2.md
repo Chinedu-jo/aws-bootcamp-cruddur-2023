@@ -113,4 +113,65 @@ Here is an image of the reported `backend-flask` dataset
 Here is an image of the span:
 ![Backend-flask span](images/honeycromb-spans.png)
 
-### Acquiring a tracer
+### Acquiring a tracer and adding a span
+
+#### Acquiring a tracer
+
+In your code `home_activities.py` add the following:
+
+```py
+from opentelemetry import trace
+
+tracer = trace.get_tracer("home.activities")
+```
+
+#### Adding a Span
+
+To add a span, include the following in your code `home_activities.py`
+
+```py
+from opentelemetry import trace
+
+tracer = trace.get_tracer(__name__)
+with tracer.start_as_current_span("home-activities-mock-data"):
+```
+
+The complete code should look something like this when done:
+
+```py
+from opentelemetry import trace
+
+tracer = trace.get_tracer("home.activities")
+
+class HomeActivities:
+  def run():
+    with tracer.start_as_current_span("home-activities-mock-data"):
+      now = datetime.now(timezone.utc).astimezone()
+      # code continues
+```
+
+![Home Activities Mock Data](images/mock-data.png)
+
+
+![Home Data Libraries](images/home-data-libraries.png)
+
+
+![Mock Data Libraries](images/mock-data-libraries.png)
+
+
+#### Creating additional attributes to the span
+
+```py
+  ...
+    span = trace.get_current_span()
+    now = datetime.now(timezone.utc).astimezone()
+    span.set_attribute("app.now", now.isoformat())
+  ...
+  span.set_attribute("app.result_length", len(results))
+  return results
+```
+
+![New Query](images/new-query-result.png)
+
+
+![HEATMAP Query](images/heatmap-query.png)
