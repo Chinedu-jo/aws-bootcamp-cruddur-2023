@@ -1,1 +1,103 @@
 # Week 2 — Distributed Tracing
+## Honeycomb Prep and Instrumentation
+
+### Creating environment in Honeycomb
+The environment (dev, staging, pre-prod, prod etc) is first created to differentiate working environments for different stages of your build or test.
+
+I created an environment called `bootcamp`, API keys were generated automatically but can be created by clicking the `create API key` button
+![bootcamp environment](images/bootcamp1)
+
+To retrieve API Keys, click `View API Keys` on the environment management dashboard and you will get a view just like this:
+
+![API Keys](images/api_keys)
+
+Copy the API Keys as you will be needing it in your code or terminal
+
+### Export and save API key in Terminal
+In terminal, set `env` variable
+Use the `gp env` command to save the variable to Gitpod
+
+```sh
+export HONEYCOM_API_KEY ="input API key"
+gp env HONEYCOM_API_KEY ="input API key"
+```
+
+
+We have to add environment variables to our docker-compose telling OpenTelemetry to send events to Honeycomb
+This instruction can be found on the Honeycomb [OpenTelemetry documentation page](https://docs.honeycomb.io/getting-data-in/opentelemetry/python/)
+
+```sh
+export OTEL_EXPORTER_OTLP_ENDPOINT="https://api.honeycomb.io/"
+export OTEL_EXPORTER_OTLP_HEADERS="x-honeycomb-team=your-api-key"
+export OTEL_SERVICE_NAME="your-service-name"
+```
+
+Since we are adding to docker-compose file, we can input the above `env variable` without the `export` command. 
+
+Each service in the docker-compose should have a unique `OTEL_SERVICE_NAME` to reflect the service specific data
+
+```yml
+services:
+  backend-flask:
+    environment:
+      FRONTEND_URL: "https://3000-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}"
+      BACKEND_URL: "https://4567-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}"
+      OTEL_EXPORTER_OTLP_ENDPOINT: "https://api.honeycomb.io/"
+      OTEL_EXPORTER_OTLP_HEADERS: "x-honeycomb-team=${HONEYCOMB_API_KEY}"
+      OTEL_SERVICE_NAME: "backend-flask"
+    build: ./backend-flask
+```
+
+### Install packages to instrument a Flask app with OpenTelemetry
+The necessary packages needed for Flask can be found on the Honeycomb [OpenTelemetry documentation page](https://docs.honeycomb.io/getting-data-in/opentelemetry/python/) or on the Home page of Honeycomb under the `Python` section
+
+To install the Python (Flask) packages, run the command below
+```sh
+pip install opentelemetry-api
+pip install opentelemetry-sdk
+pip install opentelemetry-exporter-otlp-proto-http
+pip install opentelemetry-instrumentation-flask
+pip install opentelemetry-instrumentation-requests
+```
+
+We can also add these packages as dependencies in the `requirements.txt` which will run as a prerequisite for the application
+
+```txt
+flask
+flask-cors
+
+opentelemetry-api
+opentelemetry-sdk
+opentelemetry-exporter-otlp-proto-http
+opentelemetry-instrumentation-flask
+opentelemetry-instrumentation-requests
+```
+
+### initialize a tracer and Flask instrumentation to send data to Honeycomb 
+
+Add these lines to Flask app initialization file `app.py`
+
+```html
+# app.py updates
+    
+from opentelemetry import trace
+from opentelemetry.instrumentation.flask import FlaskInstrumentor
+from opentelemetry.instrumentation.requests import RequestsInstrumentor
+from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
+from opentelemetry.sdk.trace import TracerProvider
+from opentelemetry.sdk.trace.export import BatchSpanProcessor
+
+# Initialize tracing and an exporter that can send data to Honeycomb
+provider = TracerProvider()
+processor = BatchSpanProcessor(OTLPSpanExporter())
+provider.add_span_processor(processor)
+trace.set_tracer_provider(provider)
+tracer = trace.get_tracer(__name__)
+
+# Initialize automatic instrumentation with Flask
+app = Flask(__name__)
+FlaskInstrumentor().instrument_app(app)
+RequestsInstrumentor().instrument()
+```
+
+Avoid duplicate `app = Flask(__name__)` if you already have an exisiting one in your `app.py` 
