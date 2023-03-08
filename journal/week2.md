@@ -207,6 +207,7 @@ xray_url = os.getenv("AWS_XRAY_URL")
 xray_recorder.configure(service='backend-flask', dynamic_naming=xray_url)
 XRayMiddleware(app, xray_recorder)
 ```
+
 ### Adding a Sampling rule
 
 Add sampling rule to `JSON` file in `aws/json/xray.json`
@@ -240,9 +241,45 @@ aws xray create-group \
    --group-name "Cruddur" \
    --filter-expression "service(\"backend-flask\")"
 ```
+![Cruddur Group](images/)
+
 
 ### Create sampling rule
 
 ```sh
 aws xray create-sampling-rule --cli-input-json file://aws/json/xray.json
+```
+![Sampling Group](images/samplingrule.png)
+
+
+### Add X-Ray Daemon to Docker-compose
+
+```yml
+xray-daemon:
+    image: "amazon/aws-xray-daemon"
+    environment:
+      AWS_ACCESS_KEY_ID: "${AWS_ACCESS_KEY_ID}"
+      AWS_SECRET_ACCESS_KEY: "${AWS_SECRET_ACCESS_KEY}"
+      AWS_REGION: "eu-central-1"
+    command:
+      - "xray -o -b xray-daemon:2000"
+    ports:
+      - 2000:2000/udp
+```
+#### Add X-RAY `env` variable to Backend service of Docker-compose file
+
+```yml
+...
+services:
+  backend-flask:
+    environment:
+      AWS_XRAY_URL: "*4567-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}*"
+      AWS_XRAY_DAEMON_ADDRESS: "xray-daemon:2000"
+...
+```
+**Restart Docker-compose**
+
+```sh
+docker-compose down
+docker-compose up
 ```
