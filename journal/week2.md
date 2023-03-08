@@ -175,3 +175,31 @@ class HomeActivities:
 
 
 ![HEATMAP Query](images/heatmap-query.png)
+
+
+## Instrumentation with X-RAY
+
+### Install X-RAY python SDK
+
+```sh
+pip install aws-xray-sdk
+```
+
+We can also include this in the `requirements.txt` file as a dependency
+
+```text
+aws-xray-sdk
+```
+
+# X-Ray
+# Adding the middleware to Flask app
+from aws_xray_sdk.core import xray_recorder
+from aws_xray_sdk.ext.flask.middleware import XRayMiddleware
+
+app = Flask(__name__) #Omit if already exists in code
+
+# X-Ray
+# Initialize X-RAY SDK Middleware
+xray_url = os.getenv("AWS_XRAY_URL")
+xray_recorder.configure(service='backend-flask', dynamic_naming=xray_url)
+XRayMiddleware(app, xray_recorder)
