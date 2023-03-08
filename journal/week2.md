@@ -191,6 +191,9 @@ We can also include this in the `requirements.txt` file as a dependency
 aws-xray-sdk
 ```
 
+Add this to `app.py` file
+
+```py
 # X-Ray
 # Adding the middleware to Flask app
 from aws_xray_sdk.core import xray_recorder
@@ -203,3 +206,4 @@ app = Flask(__name__) #Omit if already exists in code
 xray_url = os.getenv("AWS_XRAY_URL")
 xray_recorder.configure(service='backend-flask', dynamic_naming=xray_url)
 XRayMiddleware(app, xray_recorder)
+```
