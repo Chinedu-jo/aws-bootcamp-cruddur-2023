@@ -286,3 +286,46 @@ docker-compose up
 
 ![Traces](images/traces.png)
 
+
+## Capturing Logs with Cloudwatch 
+
+Add `watchtower` to `requirements.txt` file
+
+```txt
+watchtower
+```
+or
+
+```sh
+pip install watchtower
+```
+
+Import `watchtower` and `logging` to `app.py`
+
+```py
+import watchtower
+import logging
+from time import strftime
+```
+
+Configure logger to use Cloudwatch
+
+In `app.py` add the following code:
+
+```py
+LOGGER = logging.getLogger(__name__)
+LOGGER.setLevel(logging.DEBUG)
+console_handler = logging.StreamHandler()
+cw_handler = watchtower.CloudWatchLogHandler(log_group='cruddur')
+LOGGER.addHandler(console_handler)
+LOGGER.addHandler(cw_handler)
+```
+
+```py
+@app.after_request
+def after_request(response):
+    timestamp = strftime('[%Y-%b-%d %H:%M]')
+    LOGGER.error('%s %s %s %s %s %s', timestamp, request.remote_addr, request.method, request.scheme, request.full_path, response.status)
+    return response
+```
+ 
