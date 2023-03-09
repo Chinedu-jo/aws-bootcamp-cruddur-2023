@@ -283,3 +283,6 @@ services:
 docker-compose down
 docker-compose up
 ```
+
+![Traces](images/traces.png)
+
