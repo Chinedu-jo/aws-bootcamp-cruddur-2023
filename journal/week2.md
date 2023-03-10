@@ -319,6 +319,7 @@ console_handler = logging.StreamHandler()
 cw_handler = watchtower.CloudWatchLogHandler(log_group='cruddur')
 LOGGER.addHandler(console_handler)
 LOGGER.addHandler(cw_handler)
+LOGGER.info("test logs")
 ```
 
 ```py
@@ -329,3 +330,45 @@ def after_request(response):
     return response
 ```
  
+Add LOGGER argument to *data_home()* function
+
+```py
+@app.route("/api/activities/home", methods=['GET'])
+def data_home():
+  data = HomeActivities.run(LOGGER)
+  return data, 200
+```
+
+Import logging into `home_activities.py`
+
+```py
+import logging
+```
+
+Add `LOGGER.info` 
+
+```py
+def run(LOGGER):
+    LOGGER.info("HomeActivities")
+```
+
+### Add AWS env var to Docker-compose
+
+```yml
+environment:
+  AWS_DEFAULT_REGION: "${AWS_DEFAULT_REGION}"
+  AWS_ACCESS_KEY_ID: "${AWS_ACCESS_KEY_ID}"
+  AWS_SECRET_ACCESS_KEY: "${AWS_SECRET_ACCESS_KEY}"
+```
+
+Start up Containers
+
+```sh
+docker compose up
+```
+
+![Cloudwatch Log](images/cloudwatchlogs.png)
+
+![Cloudwatch Log events](images/logevents.png)
+
+**I disabled logs after successful tests to minimize spend**
