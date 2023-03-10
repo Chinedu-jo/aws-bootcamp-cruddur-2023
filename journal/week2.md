@@ -77,7 +77,7 @@ opentelemetry-instrumentation-requests
 
 Add these lines to Flask app initialization file `app.py`
 
-```html
+```py
 # app.py updates
     
 from opentelemetry import trace
@@ -241,7 +241,7 @@ aws xray create-group \
    --group-name "Cruddur" \
    --filter-expression "service(\"backend-flask\")"
 ```
-![Cruddur Group](images/Cruddur%xray.png)
+![Cruddur Group](images/Cruddur%20xray.png))
 
 
 ### Create sampling rule
@@ -367,7 +367,7 @@ Start up Containers
 docker compose up
 ```
 
-![Cloudwatch Log](images/cloudwatchlogs.png)
+![Cloudwatch Log](images/cloudwatchlog.png)
 
 ![Cloudwatch Log events](images/logevents.png)
 
