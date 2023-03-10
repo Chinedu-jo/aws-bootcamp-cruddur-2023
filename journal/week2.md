@@ -241,7 +241,7 @@ aws xray create-group \
    --group-name "Cruddur" \
    --filter-expression "service(\"backend-flask\")"
 ```
-![Cruddur Group](images/)
+![Cruddur Group](images/Cruddur%xray.png)
 
 
 ### Create sampling rule
