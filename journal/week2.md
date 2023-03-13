@@ -372,3 +372,92 @@ docker compose up
 ![Cloudwatch Log events](images/logevents.png)
 
 **I disabled logs after successful tests to minimize spend**
+
+## ROllbar Setup
+
+Add dependencies to `requiremets.txt` file
+
+```txt
+rollbar
+blinker
+```
+or
+
+```sh
+pip install rollbar
+pip install blinker
+```
+Set `env var` for rollbar
+
+```sh
+export ROLLBAR_ACCESS_TOKEN=""
+gp env ROLLBAR_ACCESS_TOKEN=""
+```
+
+Import modules in application
+
+In `app.py` import necessary libraries
+
+```py
+import rollbar
+import rollbar.contrib.flask
+from flask import got_request_exception
+```
+
+```py
+rollbar_access_token = os.getenv('ROLLBAR_ACCESS_TOKEN')
+@app.before_first_request
+def init_rollbar():
+    """init rollbar module"""
+    rollbar.init(
+        # access token
+        rollbar_access_token,
+        # environment name
+        'production',
+        # server root directory, makes tracebacks prettier
+        root=os.path.dirname(os.path.realpath(__file__)),
+        # flask already sets up logging
+        allow_logging_basic_config=False)
+
+    # send exceptions from `app` to rollbar, using flask's signal system.
+    got_request_exception.connect(rollbar.contrib.flask.report_exception, app)
+```
+
+**Add app test block to `app.py`**
+
+```py
+@app.route('/rollbar/test')
+def rollbar_test():
+    rollbar.report_message('Hello World!', 'warning')
+    return "Hello World!"
+```
+**Add ROLLBAR ACCESS TOKEN `env var` to docker-compose**
+
+```yml
+services:
+  backend-flask:
+    environment:
+      ...
+      ROLLBAR_ACCESS_TOKEN: "${ROLLBAR_ACCESS_TOKEN}"
+      ...
+```
+
+**Testing application**
+
+Testing app test block works with `https://4567-chinedujo-awsbootcampcr-kbtd8hdnvh3.ws-eu90.gitpod.io/rollbar/test`
+
+![ROllbar Test](images/rollbartest.png)
+
+Checking for the logs on Rollbar 
+
+![Rollbar Item](images/rollbaritem.png)
+
+![Rollbar Item details](images/rollbarerror.png)
+
+### Include Bug in Code to prompt error log
+
+Made changes in `homeactivities.py` file and saved 
+
+![error log](images/rollbarerror2.png)
+
+![error log](images/rollbarerror3.png)
