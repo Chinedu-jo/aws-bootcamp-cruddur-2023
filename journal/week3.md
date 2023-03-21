@@ -18,10 +18,6 @@
 
 ![Setup page7](images/cognito8.png)
 
-![Setup page8](images/cognito9.png)
-
-![Setup page9](images/)
-
 
 ## AWS Amplify
 
