@@ -34,18 +34,18 @@ npm i aws-amplify --save
 
 Confirm that the dependency has been added to `package.json`
 
-![Amplify confirmation](images/)
+![Amplify confirmation](images/amplify-confirmation.png)
 
 ### Configure AWS Amplify
 
-In `app.py` add the necessary libraries
+In `app.js` add the necessary libraries
 
 ```py
 import { Amplify } from 'aws-amplify';
 
 Amplify.configure({
   "AWS_PROJECT_REGION": process.env.REACT_APP_AWS_PROJECT_REGION,
-  "aws_cognito_identity_pool_id": process.env.REACT_APP_AWS_COGNITO_IDENTITY_POOL_ID,
+  # "aws_cognito_identity_pool_id": process.env.REACT_APP_AWS_COGNITO_IDENTITY_POOL_ID,
   "aws_cognito_region": process.env.REACT_APP_AWS_COGNITO_REGION,
   "aws_user_pools_id": process.env.REACT_APP_AWS_USER_POOLS_ID,
   "aws_user_pools_web_client_id": process.env.REACT_APP_CLIENT_ID,
@@ -132,4 +132,19 @@ const signOut = async () => {
   }
 }
 ```
+### Verify working application
+
+I started the application with `docker-compose up` and noticed a blank screen when frontend page was accessed.
+
+Troubleshooting steps:
+1. Attach shell for frontend container and check env vars
+2. Check that the correct variables are changed in `app.js`
+
+I caught another error after the above steps were checked and changed
+
+![Blank page error](images/blank-page-error.png)
+
+Resolution:
+I observed in `HomeFeedPage.js` that `const [user, setUser] = React.useState(null);` was placed wrongly
+
 
