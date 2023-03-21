@@ -147,4 +147,31 @@ I caught another error after the above steps were checked and changed
 Resolution:
 I observed in `HomeFeedPage.js` that `const [user, setUser] = React.useState(null);` was placed wrongly
 
+### Sign-in Page
+
+In `SigninPage.js` apply the following code
+
+```js
+import { Auth } from 'aws-amplify';
+
+const onsubmit = async (event) => {
+  setErrors('')
+  event.preventDefault();
+  Auth.signIn(email, password)
+  .then(user => {
+    localStorage.setItem("access_token", user.signInUserSession.accessToken.jwtToken)
+    window.location.href = "/"
+  })
+  .catch(error => {
+    if (error.code == 'UserNotConfirmedException') {
+      window.location.href = "/confirm"
+    }
+    setErrors(error.message)
+  });
+  return false
+}
+```
+I tested the log in page with a random email and password
+
+![Username/Password Error](images/signin-error-page.png)
 
