@@ -175,3 +175,15 @@ I tested the log in page with a random email and password
 
 ![Username/Password Error](images/signin-error-page.png)
 
+### Creating New User in User Pool
+
+![New User](images/new-user.png)
+
+I added more attributes to the user profile 
+
+![User attributes](images/user-attr.png)
+
+Confirmation:
+
+![Username displayed](images/user.png)
+
