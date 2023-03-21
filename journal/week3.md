@@ -2,23 +2,23 @@
 
 ## User Pool Creation
 
-![initial page](images/)
+![initial page](images/cognito1.png)
 
-![Setup page1](images/)
+![Setup page1](images/cognito2.png)
 
-![Setup page2](images/)
+![Setup page2](images/cognito3.png)
 
-![Setup page3](images/)
+![Setup page3](images/cognito4.png)
 
-![Setup page4](images/)
+![Setup page4](images/cognito5.png)
 
-![Setup page5](images/)
+![Setup page5](images/cognito6.png)
 
-![Setup page6](images/)
+![Setup page6](images/cognito7.png)
 
-![Setup page7](images/)
+![Setup page7](images/cognito8.png)
 
-![Setup page8](images/)
+![Setup page8](images/cognito9.png)
 
 ![Setup page9](images/)
 
@@ -71,10 +71,10 @@ REACT_APP_CLIENT_ID: "60lpcnerjqe6pjqg54gmccjd7i"
 ```
 
 Retrieving AWS_USER_POOLS_ID
-![User Pool ID](images/user-pool-id.png)
+![User Pool ID](images/cognito8.png)
 
 Retrieving CLIENT_ID
-![Client ID](images/client-id.png)
+![Client ID](images/cognito9.png)
 
 
 ### Configure conditional Component to show if user is logged in or not
@@ -173,17 +173,23 @@ const onsubmit = async (event) => {
 ```
 I tested the log in page with a random email and password
 
-![Username/Password Error](images/signin-error-page.png)
+![Username/Password Error](images/signin-error.png)
 
 ### Creating New User in User Pool
 
 ![New User](images/new-user.png)
 
+I manually configured the user via CLI
+
+```sh
+aws cognito-idp admin-set-user-password --username nedu --password ***hidden*** --user-pool-id "us-east-1_NIOsb0TBN" --permanent
+```
+
 I added more attributes to the user profile 
 
-![User attributes](images/user-attr.png)
+![User attributes](images/more-attr.png)
 
 Confirmation:
 
-![Username displayed](images/user.png)
+![Username displayed](images/login-username.png)
 
