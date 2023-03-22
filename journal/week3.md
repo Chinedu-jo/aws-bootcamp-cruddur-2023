@@ -67,9 +67,11 @@ REACT_APP_CLIENT_ID: "60lpcnerjqe6pjqg54gmccjd7i"
 ```
 
 Retrieving AWS_USER_POOLS_ID
+
 ![User Pool ID](images/cognito8.png)
 
 Retrieving CLIENT_ID
+
 ![Client ID](images/cognito9.png)
 
 
@@ -264,3 +266,9 @@ const onsubmit = async (event) => {
   return false;
 };
 ```
+**Verification**
+
+![Sign Up page](images/signup-page.png)
+
+![Confirmation page](images/confirmation.png)
+
