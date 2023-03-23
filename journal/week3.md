@@ -298,5 +298,49 @@ const onsubmit_confirm_code = async (event) => {
   }
   return false;
 };
+```
+### Authenticating Backend
 
+In `HomeFeedPage.js` include the following code
+
+```js
+...
+  const res = await fetch(backend_url, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`
+          },
+...
+```
+**Setup header to backend**
+
+In `app.js` add this code `data_home` function
+
+```py
+@app.route("/api/activities/home", methods=['GET'])
+def data_home():
+  app.logger.info("AUTH HEADER") #added this line
+  app.logger.info(request.headers.get('Authorization')) #added this line
+  data = HomeActivities.run()
+  return data, 200
+```
+**Adding CORS in backend**
+
+
+
+**Verification**
+
+![header] (images/logger.png)
+
+### Validate Token
+
+### Install AWS Cognito for backend
+
+```sh
+pip install Flask-AWSCognito
+```
+
+Add to `requirements.txt` as a dependency
+
+```txt
+Flask-AWSCognito
 ```
